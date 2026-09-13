@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Esports Skill Tournament Terminal</title>
+<style>
+body { font-family: 'Courier New', Courier, monospace; background: #0a0a0c; color: #00ff66; margin: 0; padding: 20px; box-sizing: border-box; }
+.wrapper { max-width: 600px; margin: 0 auto; }
+h1, h2, h3 { text-align: center; text-transform: uppercase; letter-spacing: 2px; color: #fff; text-shadow: 0 0 10px #00ff66; }
+.panel { background: #121216; border: 2px solid #333; border-radius: 4px; padding: 20px; margin-bottom: 20px; box-shadow: inset 0 0 15px rgba(0,0,0,0.8); }
+.accent-border { border-color: #00ff66; }
+.timer-box { font-size: 24px; text-align: center; font-weight: bold; color: #ff3366; text-shadow: 0 0 10px #ff3366; margin: 10px 0; }
+input, select, button { width: 100%; box-sizing: border-box; padding: 12px; margin: 8px 0; background: #1a1a24; border: 1px solid #00ff66; color: #00ff66; font-family: inherit; font-size: 16px; border-radius: 4px; }
+button { background: #00ff66; color: #000; font-weight: bold; cursor: pointer; transition: 0.2s; text-transform: uppercase; border: none; }
+button:hover { background: #fff; box-shadow: 0 0 15px #00ff66; }
+button:disabled { background: #333; color: #777; cursor: not-allowed; box-shadow: none; }
+.hidden { display: none; }
+.stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 15px 0; }
+.stat-card { background: #1a1a24; padding: 10px; border-radius: 4px; text-align: center; border: 1px solid #333; }
+.game-zone { width: 100%; height: 200px; background: #000; border: 2px dashed #00ff66; position: relative; cursor: pointer; display: flex; justify-content: center; align-items: center; overflow: hidden; margin-top: 15px; }
+#click-target { width: 60px; height: 60px; background: #ff3366; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: white; font-weight: bold; position: absolute; box-shadow: 0 0 15px #ff3366; user-select: none; }
+table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 14px; }
+th, td { border: 1px solid #333; padding: 8px; text-align: left; }
+th { background: #1a1a24; color: #fff; }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+<h1>// TOURNAMENT_TERMINAL</h1>
+
+<!-- SIGNUP REGISTRATION LAYER -->
+<div id="gate-panel" class="panel accent-border">
+<h2>[ ACCESS LOCKED ]</h2>
+<div style="background:#1a1a24; padding:15px; border-radius:4px; margin-bottom:15px; font-size:13px; color:#fff; border:1px solid #333;">
+<strong style="color:#00ff66;">📢 REGISTRATION INSTRUCTIONS:</strong><br>
+1. Send exactly <strong>30,000 UGX</strong> to our mobile money line.<br>
+2. Copy the Txn ID code from your incoming network message.<br>
+3. Submit it below. You will receive an activation key via contact.
+</div>
+
+<form action="https://formspree.io" method="POST" id="registration-proof-form">
+<input type="tel" name="User Phone Node" placeholder="YOUR ACCOUNT PHONE NUMBER" required>
+<input type="text" name="Payment Transaction ID" placeholder="PASTE MOBILE MONEY TXN ID HERE" required>
+<button type="submit" id="reg-submit-btn">1. Submit Payout Verification Request</button>
+</form>
+
+<hr style="border-color: #333; margin: 20px 0;">
+<p>Already have your 6-digit verification code? Enter it below to unlock access instantly:</p>
+<input type="text" id="activation-input" placeholder="ENTER 6-DIGIT ACTIVATION CODE">
+<button onclick="checkAccessCode()" style="background:#fff; color:#000;">2. Unlock System Terminal</button>
+</div>
+
+<!-- MAIN ACTIVE SYSTEM APPLICATION -->
+<div id="main-application" class="hidden">
+
+<!-- TOURNAMENT CLOCK & TELEMETRY -->
+<div class="panel">
+<h3>Tournament Engine Status</h3>
+<div class="timer-box" id="countdown-clock">16h 00m 00s</div>
+<p style="font-size:12px; text-align:center; color:#fff; margin:0 0 10px 0;">🔥 Person with highest tickets at clock expiration wins the pooled daily payout seat cash!</p>
+<div class="stats-grid">
+<div class="stat-card">
+<div>Your Wallet</div>
+<strong style="color: #fff; font-size: 18px;" id="balance-display">0 UGX</strong>
+</div>
+<div class="stat-card">
+<div>Tournament Tickets</div>
+<strong style="color: #fff; font-size: 18px;" id="ticket-display">0 Tickets</strong>
+</div>
+</div>
+</div>
+
+<!-- CLICKER CORE GAME MODULE -->
+<div class="panel accent-border">
+<h3>Task Matrix: Target Reaction Vector</h3>
+<p>Click the red matrix target vector as fast as it moves to harvest UGX and entry tickets.</p>
+<div class="game-zone" id="arena" onclick="missClick()">
+<div id="click-target" onclick="hitTarget(event)">HIT</div>
+</div>
+</div>
+
+<!-- TASK ARCHITECTURE MODULE WITH TIME-LOCK ANTI-SPAM -->
+<div class="panel accent-border">
+<h3>📋 Premium Task Matrix (Earn UGX via Review)</h3>
+<p style="color: #ff3366; font-size: 12px;">⚠️ NOTICE: Payout audits cross-check submissions within 24 hours. Spamming fake details resets browser balance to zero.</p>
+
+<div id="tasks-container">
+<!-- Task item 1 -->
+<div class="stat-card" id="task-1-box" style="margin-bottom: 15px; text-align: left; padding: 15px;">
+<strong>Task #1: Follow & Review Sponsor Page</strong><br>
+<span style="color:#00ff66; font-size:14px;">Reward: +3,500 UGX | +10 Tickets</span><br>
+<a href="https://example.com" target="_blank" style="display:inline-block; margin-bottom:10px;">
+<button style="width: auto; padding: 5px 15px; font-size: 14px;">1. Launch Task Link 🔗</button>
+</a>
+<form action="https://formspree.io" method="POST" class="task-proof-form" data-task-id="task-1-box" data-cash="3500" data-tickets="10">
+<input type="text" name="Verification Username" placeholder="Enter Your Username Used For Task" required>
+<input type="hidden" name="Task ID" value="Task #1: Follow & Review Sponsor Page">
+<button type="submit" style="background:#fff; color:#000; width:auto; padding:5px 15px; font-size:14px; margin-top:5px;">2. Claim Task Payout</button>
+</form>
+</div>
+
+<!-- Task item 2 -->
+<div class="stat-card" id="task-2-box" style="margin-bottom: 15px; text-align: left; padding: 15px;">
+<strong>Task #2: Complete Partner Survey Form</strong><br>
+<span style="color:#00ff66; font-size:14px;">Reward: +5,000 UGX | +15 Tickets</span><br>
+<a href="https://example.com" target="_blank" style="display:inline-block; margin-bottom:10px;">
+<button style="width: auto; padding: 5px 15px; font-size: 14px;">1. Launch Task Link 🔗</button>
+</a>
+<form action="https://formspree.io" method="POST" class="task-proof-form" data-task-id="task-2-box" data-cash="5000" data-tickets="15">
+<input type="text" name="Survey Email Used" placeholder="Enter Email Used For Survey" required>
+<input type="hidden" name="Task ID" value="Task #2: Complete Partner Survey Form">
+<button type="submit" style="background:#fff; color:#000; width:auto; padding:5px 15px; font-size:14px; margin-top:5px;">2. Claim Task Payout</button>
+</form>
+</div>
+</div>
+</div>
+
+<!-- REFERRAL MANAGEMENT ENGINE -->
+<div class="panel">
+<h3>Affiliate Pipeline System</h3>
+<p>Earn an extra <strong>5,000 UGX</strong> added to your live wallet balance whenever an invited partner registers using your route link.</p>
+<input type="tel" id="affiliate-phone" placeholder="Enter Your Payout Phone Number">
+<button onclick="createAffiliateLink()">Generate Referral Link</button>
+<input type="text" id="invite-link-box" readonly placeholder="Your generated link will appear here..." style="color: #fff; border-color: #333;">
+</div>
+
+<!-- PUBLIC TRUST LEDGER SCREEN -->
+<div class="panel">
+<h3>Live Ledger Transactions Verification</h3>
+<table>
+<thead>
+<tr><th>User ID</th><th>Type</th><th>Value</th><th>Status</th></tr>
+</thead>
+<tbody>
+<tr><td>077801</td><td>Registration Fee</td><td>30,000 UGX</td><td><span style="color:#00ff66;">ACTIVE</span></td></tr>
+<tr><td>070152</td><td>System Payout</td><td>65,000 UGX</td><td><span style="color:#fff;">DISBURSED</span></td></tr>
+<tr><td>078****994</td><td>Registration Fee</td><td>30,000 UGX</td><td><span style="color:#00ff66;">ACTIVE</span></td></tr>
+</tbody>
+</table>
+</div>
+
+<!-- WITHDRAWAL CONTROL BOARD -->
+<div class="panel" style="border-color: #ff3366;">
+<h3>Payout Withdrawal Settlement</h3>
+<p>System Balance payout threshold limit: <strong>50,000 UGX</strong></p>
