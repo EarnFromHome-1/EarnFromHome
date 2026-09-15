@@ -1,0 +1,4 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{% block title %}TimeCash{% endblock %}</title><link rel="stylesheet" href="{{ url_for('static',filename='css.css') }}"></head><body>
+<header class="top"><a class="brand" href="{{url_for('home')}}">TimeCash</a>{% if user %}<span class="balance">{{ '%.0f'|format(user['balance']) }} TCs</span>{% endif %}</header>
+<main class="wrap">{% with messages=get_flashed_messages() %}{% if messages %}<div class="flash">{% for m in messages %}<div>{{m}}</div>{% endfor %}</div>{% endif %}{% endwith %}{% block content %}{% endblock %}</main>
+{% if user %}<nav class="nav"><a href="{{url_for('home')}}">⌂<small>Home</small></a><a href="{{url_for('earn')}}">◈<small>Earn</small></a><a href="{{url_for('withdraw')}}">⇩<small>Withdraw</small></a><a href="{{url_for('admin')}}">♛<small>Admin</small></a></nav>{% endif %}</body></html>

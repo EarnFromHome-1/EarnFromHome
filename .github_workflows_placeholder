@@ -1,0 +1,2 @@
+# Add a real CI/CD workflow after your hosting provider is chosen.
+# Keep production secrets in GitHub Actions Secrets, never in the repository.

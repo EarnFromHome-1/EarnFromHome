@@ -1,0 +1,1 @@
+{% extends 'base.html' %}{% block content %}<div class="panel"><h2>Withdraw</h2><p>Notebook minimum: 50,000 UGX.</p><form method="post"><input type="number" name="amount" min="50000" step="1" placeholder="Amount"><input name="destination" placeholder="Mobile-money destination" required><button class="btn">Request withdrawal</button></form></div>{% endblock %}
